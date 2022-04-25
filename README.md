@@ -10,3 +10,13 @@
 </p>
 <p align="center">
 <a href="https://github.com/1Psychokiller"><img title="Github" src="https://telegra.ph/file/378f4d3c39a358d3cf28d.jpg"></a>
+        
+
+
+
+          apt upadate
+          apt upgrade
+          pkg install git 
+          git clone https://github.com/Psychokiller-5/hulkdos
+          cd hulkDos
+          python hulkdos.py (your server)
