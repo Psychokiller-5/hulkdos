@@ -19,4 +19,4 @@
           pkg install git 
           git clone https://github.com/Psychokiller-5/hulkdos
           cd hulkDos
-          python hulkdos.py (your server)
+          python hulk.py (your server)
