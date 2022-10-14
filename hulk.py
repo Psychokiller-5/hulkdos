@@ -157,7 +157,7 @@ else:
 		url = sys.argv[1]
 		if url.count("/")==2:
 			url = url + "/"
-		m = re.search('https?\://([^/]*)/?.*', url)
+		m = re.search('http?\://([^/]*)/?.*', url)
 		host = m.group(1)
 		# print httpcall(url)
 		for i in range(500):
